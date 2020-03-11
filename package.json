@@ -14,6 +14,11 @@
   ],
   "author": "activeguild",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "example:start": "ts-node ./example/index.ts",
+    "example:evans": "evans --port 50051 ./example/protos/helloWorld.proto"
+  },
   "devDependencies": {
     "@grpc/proto-loader": "^0.5.3",
     "@typescript-eslint/eslint-plugin": "^2.22.0",
