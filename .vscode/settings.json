@@ -1,0 +1,20 @@
+{
+  "eslint.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.json"
+  },
+  "eslint.validate": [
+    "javascript",
+    {
+      "language": "typescript",
+      "autoFix": true
+    }
+  ],
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.wordWrapColumn": 150,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

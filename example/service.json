@@ -1,0 +1,20 @@
+{
+  "protos": [
+    {
+      "path": "./example/protos/helloWorld.proto",
+      "pkg": "helloworld",
+      "options": {
+        "keepCase": true,
+        "defaults": true,
+        "oneofs": true,
+        "alternateCommentMode": false
+      },
+      "services": [
+        {
+          "name": "Greeter",
+          "methods": [{ "name": "sayHello", "out": { "message": "hoge" } }]
+        }
+      ]
+    }
+  ]
+}
