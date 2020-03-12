@@ -2,13 +2,16 @@ syntax = "proto3";
 package helloworld;
 
 service Greeter {
-  rpc SayHello (HelloRequest) returns (HelloResponse) {}
+  rpc unary (UnaryRequest) returns (UnaryResponse) {}
+  rpc serverStreaming (UnaryRequest) returns (stream UnaryResponse) {}
+  rpc clientStreaming (stream UnaryRequest) returns (UnaryResponse) {}
+  rpc duplexStreaming (stream UnaryRequest) returns (stream UnaryResponse) {}
 }
 
-message HelloRequest {
+message UnaryRequest {
   string name = 1;
 }
 
-message HelloResponse {
+message UnaryResponse {
   string message = 1;
 }
