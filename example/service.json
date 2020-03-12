@@ -12,7 +12,7 @@
       "services": [
         {
           "name": "Greeter",
-          "methods": [{ "name": "sayHello", "out": { "message": "hoge" } }]
+          "methods": [{ "name": "unary", "out": { "message": "hoge" } }]
         }
       ]
     }

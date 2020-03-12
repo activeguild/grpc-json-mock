@@ -26,17 +26,43 @@ export type MockMethodJson = {
   out: any;
 };
 
-export type Proto = {
-  path: string;
-  pkgName: string;
-  options: loader.Options;
+enum RPCType {
+  UNARY,
+  SERVER_STREAMING,
+  CLIENT_STREAMING,
+  DUPLEX_STREAMING,
+}
+
+const makeHandler = (out: string, rpcType: RPCType) => {
+  return (call: any, cb: any): void => {
+    switch (rpcType) {
+      case RPCType.UNARY:
+        cb(null, out);
+        break;
+      case RPCType.CLIENT_STREAMING:
+        break;
+      case RPCType.SERVER_STREAMING:
+        break;
+      case RPCType.DUPLEX_STREAMING:
+        break;
+      default:
+        break;
+    }
+  };
+};
+
+const convertRPCType = ({
+  requestStream,
+  responseStream,
+}: grpc.MethodDefinition<object, object>): RPCType => {
+  if (requestStream && responseStream) return RPCType.DUPLEX_STREAMING;
+  else if (requestStream) return RPCType.CLIENT_STREAMING;
+  else if (responseStream) return RPCType.SERVER_STREAMING;
+
+  return RPCType.UNARY;
 };
 
 let server: grpc.Server;
-
-export const makeHandler = (out: string) => (call: any, cb: any): void => {
-  cb(null, out);
-};
 
 export const run = (
   protoMockServer: ProtoMockServer = {
@@ -57,14 +83,19 @@ export const run = (
     const pkgDefinition = loader.loadSync(Path.resolve(path), options);
     services.forEach(service => {
       const serviceHandler = service.methods.reduce((prev, curr) => {
-        return { ...prev, [curr.name]: makeHandler(curr.out) };
+        const svcDefinition = pkgDefinition[
+          `${pkg}.${service.name}`
+        ] as grpc.ServiceDefinition<any>;
+
+        const methodDefinition = svcDefinition[
+          curr.name
+        ] as grpc.MethodDefinition<object, object>;
+
+        return {
+          ...prev,
+          [curr.name]: makeHandler(curr.out, convertRPCType(methodDefinition)),
+        };
       }, {});
-
-      const svcDefinition = (pkgDefinition as any)[
-        `${pkg}.${service.name}`
-      ] as grpc.ServiceDefinition<grpc.MethodDefinition<object, object>>;
-
-      console.log('svcDefinition', svcDefinition);
 
       server.addService(
         (pkgDefinition as any)[`${pkg}.${service.name}`],
@@ -77,25 +108,4 @@ export const run = (
   server.start();
 
   return server;
-};
-
-const _unaryHandler = (out: string) => {
-  return (call: any, cb: any): void => {
-    cb(null, out);
-  };
-};
-const _serverStreamingHandler = (out: string) => {
-  return (call: any, cb: any): void => {
-    cb(null, out);
-  };
-};
-const _clientStreamingHandler = (out: string) => {
-  return (call: any, cb: any): void => {
-    cb(null, out);
-  };
-};
-const _duplexStreamingHandler = (out: string) => {
-  return (call: any, cb: any): void => {
-    cb(null, out);
-  };
 };
