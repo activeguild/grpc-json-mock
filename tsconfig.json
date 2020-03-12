@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "moduleResolution": "node",
+    "importHelpers": true,
     "target": "es6",
     "module": "commonjs",
     "lib": ["dom", "esnext"],
@@ -11,5 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictFunctionTypes": true
-  }
+  },
+  "include": ["src/**/*"]
 }
