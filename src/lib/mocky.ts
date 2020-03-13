@@ -1,5 +1,6 @@
 import * as grpc from 'grpc';
 import * as loader from '@grpc/proto-loader';
+import { makeHandler } from './handler';
 import Path from 'path';
 
 const DEFULAT_SERVER_ADDRESS = '0.0.0.0';
@@ -26,30 +27,12 @@ export type MockMethodJson = {
   out: any;
 };
 
-enum RPCType {
+export enum RPCType {
   UNARY,
   SERVER_STREAMING,
   CLIENT_STREAMING,
   DUPLEX_STREAMING,
 }
-
-const makeHandler = (out: string, rpcType: RPCType) => {
-  return (call: any, cb: any): void => {
-    switch (rpcType) {
-      case RPCType.UNARY:
-        cb(null, out);
-        break;
-      case RPCType.CLIENT_STREAMING:
-        break;
-      case RPCType.SERVER_STREAMING:
-        break;
-      case RPCType.DUPLEX_STREAMING:
-        break;
-      default:
-        break;
-    }
-  };
-};
 
 const convertRPCType = ({
   requestStream,
@@ -93,7 +76,7 @@ export const run = (
 
         return {
           ...prev,
-          [curr.name]: makeHandler(curr.out, convertRPCType(methodDefinition)),
+          [curr.name]: makeHandler(curr, convertRPCType(methodDefinition)),
         };
       }, {});
 

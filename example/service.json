@@ -12,7 +12,32 @@
       "services": [
         {
           "name": "Greeter",
-          "methods": [{ "name": "unary", "out": { "message": "hoge" } }]
+          "methods": [
+            { "name": "unary", "out": { "message": "hoge" } },
+            {
+              "name": "serverStreaming",
+              "out": [
+                {
+                  "message": "hoge1"
+                },
+                {
+                  "message": "hoge2"
+                }
+              ]
+            },
+            {
+              "name": "clientStreaming",
+              "out": {
+                "message": "hoge"
+              }
+            },
+            {
+              "name": "duplexStreaming",
+              "out": {
+                "message": "hoge"
+              }
+            }
+          ]
         }
       ]
     }
