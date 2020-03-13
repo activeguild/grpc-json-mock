@@ -12,8 +12,12 @@
     "grpc-web",
     "grpc-mock"
   ],
-  "author": "mastache-master",
+  "author": "mastache-master <workdrive0306@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/activeguild/grpc-mocky/issues"
+  },
+  "homepage": "https://github.com/activeguild/grpc-mocky/blob/master/README.md",
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "example:start": "ts-node ./example/index.ts",
