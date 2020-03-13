@@ -2,11 +2,15 @@
   "name": "grpc-mocky",
   "version": "0.1.0",
   "description": "This is a mock of grpc used for javascript development.",
-  "main": "index.ts",
+  "main": "dist/index.ts",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/activeguild/grpc-mocky.git"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "grpc",
     "grpc-web",
@@ -21,7 +25,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "example:start": "ts-node ./example/index.ts",
-    "example:evans": "evans --port 50051 ./example/protos/helloWorld.proto"
+    "example:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.22.0",

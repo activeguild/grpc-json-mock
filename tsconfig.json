@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
+    "outDir": "./dist/",
+    "declaration": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es6",
