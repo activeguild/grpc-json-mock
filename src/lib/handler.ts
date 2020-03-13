@@ -16,6 +16,14 @@ const _clientStreamingHandler = (mockMethodJson: MockMethodJson) => (
   console.log(mockMethodJson);
   console.log(call);
   console.log(cb);
+
+  call.on('data', function(memo, data) {
+    console.log(memo);
+    console.log(data);
+  });
+  call.on('end', () => {
+    cb(null, mockMethodJson.out);
+  });
 };
 
 const _serverStreamingHandler = (mockMethodJson: MockMethodJson) => (
