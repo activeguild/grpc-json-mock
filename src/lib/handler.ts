@@ -1,14 +1,44 @@
 import * as grpc from 'grpc';
 import { MockMethodJson, RPCType } from './mocky';
 
-const _unaryHandler = (mockMethodJson: MockMethodJson) => (
+type Handler =
+  | UnaryHandler
+  | ClientStreamingHandler
+  | ServerStreamingHandler
+  | DuplexStreamingHandler;
+
+type UnaryHandler = (
+  call: grpc.ServerUnaryCall<{ [key: string]: string }>,
+  cb: grpc.sendUnaryData<{ [key: string]: string }>
+) => void;
+
+type ClientStreamingHandler = (
+  call: grpc.ServerReadableStream<{ [key: string]: string }>,
+  cb: grpc.sendUnaryData<{ [key: string]: string }>
+) => void;
+
+type ServerStreamingHandler = (
+  call: grpc.ServerWritableStream<{ [key: string]: string }>,
+  cb: grpc.sendUnaryData<{ [key: string]: string }>
+) => void;
+
+type DuplexStreamingHandler = (
+  call: grpc.ServerDuplexStream<
+    { [key: string]: string },
+    { [key: string]: string }
+  >
+) => void;
+
+const _unaryHandler = (mockMethodJson: MockMethodJson): UnaryHandler => (
   call: grpc.ServerUnaryCall<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
   cb(null, mockMethodJson.out);
 };
 
-const _clientStreamingHandler = (mockMethodJson: MockMethodJson) => (
+const _clientStreamingHandler = (
+  mockMethodJson: MockMethodJson
+): ClientStreamingHandler => (
   call: grpc.ServerReadableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
@@ -26,7 +56,9 @@ const _clientStreamingHandler = (mockMethodJson: MockMethodJson) => (
   });
 };
 
-const _serverStreamingHandler = (mockMethodJson: MockMethodJson) => (
+const _serverStreamingHandler = (
+  mockMethodJson: MockMethodJson
+): ServerStreamingHandler => (
   call: grpc.ServerWritableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
@@ -50,7 +82,9 @@ const _serverStreamingHandler = (mockMethodJson: MockMethodJson) => (
   call.end();
 };
 
-const _duplexStreamingHandler = (mockMethodJson: MockMethodJson) => (
+const _duplexStreamingHandler = (
+  mockMethodJson: MockMethodJson
+): DuplexStreamingHandler => (
   call: grpc.ServerDuplexStream<
     { [key: string]: string },
     { [key: string]: string }
@@ -64,7 +98,7 @@ const _duplexStreamingHandler = (mockMethodJson: MockMethodJson) => (
 export const makeHandler = (
   mockMethodJson: MockMethodJson,
   rpcType: RPCType
-): any => {
+): Handler => {
   switch (rpcType) {
     case RPCType.UNARY:
       return _unaryHandler(mockMethodJson);
@@ -75,8 +109,6 @@ export const makeHandler = (
     case RPCType.DUPLEX_STREAMING:
       return _duplexStreamingHandler(mockMethodJson);
     default:
-      return (): void => {
-        // wip
-      };
+      throw new Error('An undefined RPCType was specified.');
   }
 };
