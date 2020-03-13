@@ -9,7 +9,10 @@
     "url": "git+https://github.com/activeguild/grpc-mocky.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
   ],
   "keywords": [
     "grpc",
