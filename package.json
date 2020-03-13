@@ -12,7 +12,7 @@
     "grpc-web",
     "grpc-mock"
   ],
-  "author": "activeguild",
+  "author": "mastache-master",
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.json",
