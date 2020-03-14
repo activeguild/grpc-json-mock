@@ -14,7 +14,7 @@
 npm i -D grpc-mocky
 ```
 
-# Exp
+# e.g.
 
 https://github.com/activeguild/grpc-mocky/tree/master/example
 
