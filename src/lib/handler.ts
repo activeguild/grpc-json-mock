@@ -47,9 +47,8 @@ const _clientStreamingHandler = (
   console.log(call);
   console.log(cb);
 
-  call.on('data', function(memo, data) {
-    console.log(memo);
-    console.log(data);
+  call.on('data', function(chunk: any) {
+    console.log(chunk);
   });
   call.on('end', () => {
     cb(null, mockMethodJson.out);
@@ -93,6 +92,21 @@ const _duplexStreamingHandler = (
   // wip
   console.log(mockMethodJson);
   console.log(call);
+
+  call.on('data', function(chunk: { [key: string]: string }) {
+    console.log(chunk);
+  });
+  call.on('end', () => {
+    console.log('clinet stream end');
+  });
+
+  if (Array.isArray(mockMethodJson.out)) {
+    mockMethodJson.out.forEach(value => {
+      call.write(value);
+    });
+  } else {
+    call.write(mockMethodJson.out);
+  }
 };
 
 export const makeHandler = (
