@@ -27,11 +27,11 @@ export type MockMethodJson = {
   out: any;
 };
 
-export enum RPCType {
-  UNARY,
-  SERVER_STREAMING,
-  CLIENT_STREAMING,
-  DUPLEX_STREAMING,
+export const enum RPCType {
+  UNARY = 'UNARY',
+  SERVER_STREAMING = 'SERVER_STREAMING',
+  CLIENT_STREAMING = 'CLIENT_STREAMING',
+  DUPLEX_STREAMING = 'DUPLEX_STREAMING',
 }
 
 const convertRPCType = ({
