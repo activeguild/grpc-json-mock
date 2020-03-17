@@ -1,6 +1,26 @@
 import * as grpc from 'grpc';
 import { MockMethodJson, RPCType } from './mocky';
 
+const DEFAULT_STREAMING_INTERVAL = 1000;
+
+const intervalEach = (
+  array: { [key: string]: string }[],
+  callback: (value: { [key: string]: string }) => void,
+  lastCallback: () => void,
+  interval: number | undefined = DEFAULT_STREAMING_INTERVAL
+): void => {
+  let i = array.length;
+  const timerID = setInterval(function() {
+    if (!i) {
+      lastCallback();
+      clearInterval(timerID);
+      return;
+    }
+    callback(array[array.length - i]);
+    i--;
+  }, interval);
+};
+
 type Handler =
   | UnaryHandler
   | ClientStreamingHandler
@@ -71,14 +91,16 @@ const _serverStreamingHandler = (
   });
 
   if (Array.isArray(mockMethodJson.out)) {
-    mockMethodJson.out.forEach(value => {
-      call.write(value);
-    });
+    intervalEach(
+      mockMethodJson.out,
+      (value: { [key: string]: string }) => call.write(value),
+      () => call.end(),
+      mockMethodJson.streamInterval
+    );
   } else {
     call.write(mockMethodJson.out);
+    call.end();
   }
-
-  call.end();
 };
 
 const _duplexStreamingHandler = (
@@ -101,9 +123,12 @@ const _duplexStreamingHandler = (
   });
 
   if (Array.isArray(mockMethodJson.out)) {
-    mockMethodJson.out.forEach(value => {
-      call.write(value);
-    });
+    intervalEach(
+      mockMethodJson.out,
+      (value: { [key: string]: string }) => call.write(value),
+      () => ({}),
+      mockMethodJson.streamInterval
+    );
   } else {
     call.write(mockMethodJson.out);
   }

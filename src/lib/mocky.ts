@@ -25,6 +25,7 @@ export type MockServiceJson = {
 export type MockMethodJson = {
   name: string;
   out: any;
+  streamInterval: number;
 };
 
 export const enum RPCType {
