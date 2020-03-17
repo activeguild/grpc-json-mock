@@ -1,11 +1,13 @@
 import * as grpc from 'grpc';
 import { MockMethodJson, RPCType } from './mocky';
 
+const DEFAULT_STREAMING_INTERVAL = 1000;
+
 const intervalEach = (
   array: { [key: string]: string }[],
   callback: (value: { [key: string]: string }) => void,
   lastCallback: () => void,
-  interval: number
+  interval: number | undefined = DEFAULT_STREAMING_INTERVAL
 ): void => {
   let i = array.length;
   const timerID = setInterval(function() {
