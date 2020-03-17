@@ -13,7 +13,12 @@
         {
           "name": "Greeter",
           "methods": [
-            { "name": "unary", "out": { "message": "hoge" } },
+            {
+              "name": "unary",
+              "out": {
+                "message": "hoge"
+              }
+            },
             {
               "name": "serverStreaming",
               "out": [
@@ -23,7 +28,8 @@
                 {
                   "message": "hoge2"
                 }
-              ]
+              ],
+              "streamInterval": 2000
             },
             {
               "name": "clientStreaming",

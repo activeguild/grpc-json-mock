@@ -28,8 +28,8 @@
   "homepage": "https://github.com/activeguild/grpc-mocky/blob/master/README.md",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "example:start": "ts-node ./example/index.ts",
-    "example:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
+    "eg:start": "ts-node ./example/index.ts",
+    "eg:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
