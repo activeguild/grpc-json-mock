@@ -53,7 +53,11 @@ const _unaryHandler = (mockMethodJson: MockMethodJson): UnaryHandler => (
   call: grpc.ServerUnaryCall<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
-  cb(null, mockMethodJson.out);
+  if (mockMethodJson.error) {
+    cb(mockMethodJson.error, null);
+  } else {
+    cb(null, mockMethodJson.out);
+  }
 };
 
 const _clientStreamingHandler = (
@@ -71,7 +75,11 @@ const _clientStreamingHandler = (
     console.log(chunk);
   });
   call.on('end', () => {
-    cb(null, mockMethodJson.out);
+    if (mockMethodJson.error) {
+      cb(mockMethodJson.error, null);
+    } else {
+      cb(null, mockMethodJson.out);
+    }
   });
 };
 
@@ -89,8 +97,9 @@ const _serverStreamingHandler = (
   call.on('error', (err: Error) => {
     console.log(err);
   });
-
-  if (Array.isArray(mockMethodJson.out)) {
+  if (mockMethodJson.error) {
+    cb(mockMethodJson.error, null);
+  } else if (Array.isArray(mockMethodJson.out)) {
     intervalEach(
       mockMethodJson.out,
       (value: { [key: string]: string }) => call.write(value),
@@ -122,7 +131,9 @@ const _duplexStreamingHandler = (
     console.log('clinet stream end');
   });
 
-  if (Array.isArray(mockMethodJson.out)) {
+  if (mockMethodJson.error) {
+    call.emit('error', mockMethodJson.error);
+  } else if (Array.isArray(mockMethodJson.out)) {
     intervalEach(
       mockMethodJson.out,
       (value: { [key: string]: string }) => call.write(value),

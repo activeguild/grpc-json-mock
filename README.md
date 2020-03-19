@@ -53,11 +53,12 @@ npm i -D grpc-mocky
 
 ### method(Object)
 
-| Parameter      | Type                      | Description                                                  |
-| -------------- | ------------------------- | ------------------------------------------------------------ |
-| name           | string                    | <b>Required.</b> Set method name from ptoro file.            |
-| out            | Object \| Array\<object\> | Set response from server.                                    |
-| streamInterval | number                    | Set the sense of server streaming.Unit is msec. default 1000 |
+| Parameter      | Type                      | Description                                                                  |
+| -------------- | ------------------------- | ---------------------------------------------------------------------------- |
+| name           | string                    | <b>Required.</b> Set method name from ptoro file.                            |
+| out            | Object \| Array\<object\> | Set response from server.                                                    |
+| streamInterval | number                    | Set the sense of server streaming.Unit is msec. default 1000                 |
+| error          | Object                    | Set grpc error. <br> https://cloud.google.com/apis/design/errors#error_model |
 
 # e.g.
 
