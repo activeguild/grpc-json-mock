@@ -7,6 +7,7 @@
 # Introduction
 
 - This is a mock of grpc used for javascript development
+- Can have multiple entry points
 - Supports the following methods
   - unary
   - serverStreming
@@ -23,17 +24,11 @@ npm i -D grpc-mocky
 
 ### run
 
-| Parameter | Type   | Description                                                                                                                                                  |
-| --------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| address   | string | Set the address of the mock server to be started. default 0.0.0.0                                                                                            |
-| port      | string | Set the port of the mock server to be started. default 50051                                                                                                 |
-| protos    | Array  | <b>Required.</b> Set proto and mock data to be loaded into mock server. <br> e.g. https://github.com/activeguild/grpc-mocky/blob/master/example/service.json |
-
-### protos(Array)
-
-| Parameter | Type           | Description |
-| --------- | -------------- | ----------- |
-| protos    | Array\<proto\> |             |
+| Parameter | Type           | Description                                                                                                                                                  |
+| --------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| address   | string         | Set the address of the mock server to be started. default 0.0.0.0                                                                                            |
+| port      | string         | Set the port of the mock server to be started. default 50051                                                                                                 |
+| protos    | Array\<proto\> | <b>Required.</b> Set proto and mock data to be loaded into mock server. <br> e.g. https://github.com/activeguild/grpc-mocky/blob/master/example/service.json |
 
 ### proto(Object)
 

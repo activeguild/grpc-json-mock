@@ -2,13 +2,16 @@
   "compilerOptions": {
     "baseUrl": "src",
     "outDir": "./dist/",
+    "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es6",
     "module": "commonjs",
     "lib": ["dom", "esnext"],
     "experimentalDecorators": true,
+    "allowJs": false,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
