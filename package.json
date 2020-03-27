@@ -31,6 +31,7 @@
     "build:watch": "tsc -w --project tsconfig.json",
     "test": "jest",
     "eg:start": "ts-node ./example/index.ts",
+    "eg:generate": "ts-node ./example/index-generate.ts",
     "eg:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
     "prepublishOnly": "npm run build"
   },
@@ -52,6 +53,7 @@
     "@grpc/proto-loader": "^0.5.3",
     "grpc": "^1.24.2",
     "minimist": "^1.2.5",
+    "node-filelist": "^1.0.0",
     "protobufjs": "^6.8.8"
   }
 }

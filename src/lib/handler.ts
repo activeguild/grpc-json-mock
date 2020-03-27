@@ -1,7 +1,7 @@
 import * as grpc from 'grpc';
 import { MockMethodJson, RPCType } from './mocky';
 
-const DEFAULT_STREAMING_INTERVAL = 1000;
+export const DEFAULT_STREAMING_INTERVAL = 1000;
 
 const intervalEach = (
   array: { [key: string]: string }[],
