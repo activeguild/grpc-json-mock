@@ -24,9 +24,9 @@ export type MockServiceJson = {
 };
 export type MockMethodJson = {
   name: string;
-  out: any;
-  error: grpc.ServiceError;
-  streamInterval: number;
+  out: { [key: string]: string };
+  error?: grpc.ServiceError;
+  streamInterval?: number;
 };
 
 export const enum RPCType {

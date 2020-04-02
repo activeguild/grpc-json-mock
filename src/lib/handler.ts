@@ -1,7 +1,7 @@
 import * as grpc from 'grpc';
 import { MockMethodJson, RPCType } from './mocky';
 
-const DEFAULT_STREAMING_INTERVAL = 1000;
+export const DEFAULT_STREAMING_INTERVAL = 1000;
 
 const intervalEach = (
   array: { [key: string]: string }[],
@@ -66,11 +66,6 @@ const _clientStreamingHandler = (
   call: grpc.ServerReadableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
-  // wip
-  console.log(mockMethodJson);
-  console.log(call);
-  console.log(cb);
-
   call.on('data', function(chunk: any) {
     console.log(chunk);
   });
@@ -89,11 +84,6 @@ const _serverStreamingHandler = (
   call: grpc.ServerWritableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
-  // wip
-  console.log(mockMethodJson);
-  console.log(call);
-  console.log(cb);
-
   call.on('error', (err: Error) => {
     console.log(err);
   });
@@ -120,10 +110,6 @@ const _duplexStreamingHandler = (
     { [key: string]: string }
   >
 ): void => {
-  // wip
-  console.log(mockMethodJson);
-  console.log(call);
-
   call.on('data', function(chunk: { [key: string]: string }) {
     console.log(chunk);
   });

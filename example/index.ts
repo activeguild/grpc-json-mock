@@ -1,4 +1,4 @@
-import mocky from '..';
+import mocky from '../dist';
 import * as fs from 'fs';
 
 const protos = JSON.parse(fs.readFileSync('./example/service.json', 'utf8'))
