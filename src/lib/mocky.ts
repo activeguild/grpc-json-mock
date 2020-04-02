@@ -24,7 +24,7 @@ export type MockServiceJson = {
 };
 export type MockMethodJson = {
   name: string;
-  out: any;
+  out: { [key: string]: string };
   error?: grpc.ServiceError;
   streamInterval?: number;
 };

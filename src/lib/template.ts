@@ -1,51 +1,62 @@
 import fs from 'fs';
 import Path from 'path';
 import * as loader from '@grpc/proto-loader';
-import { MockServiceJson, MockMethodJson } from './mocky';
+import { MockServiceJson, MockMethodJson, MockProtoJson } from './mocky';
 import fl from 'node-filelist';
 
-export const generateMockTemplate = (path: string): void => {
-  const stats = fs.statSync(path);
-  const isDirectory = stats.isDirectory();
+const TEMPLATE_NAME = 'service.json';
+
+const _getServiceName = (namespace: string): string => {
+  const pkgWithServiceName = namespace.split('.');
+  return pkgWithServiceName.pop() || '';
+};
+
+const _getPkgName = (namespace: string): string => {
+  const pkgWithServiceName = namespace.split('.');
+  pkgWithServiceName.pop();
+  return pkgWithServiceName.join('.');
+};
+
+export default (path: string): void => {
+  const pathStat = fs.statSync(path);
   let filePaths: string[] = [];
 
-  if (isDirectory) {
+  if (pathStat.isDirectory()) {
     filePaths = fs.readdirSync(path).map(fileName => Path.join(path, fileName));
   } else {
     filePaths.push(path);
   }
 
   fl.read(filePaths, { ext: 'proto' }, (results: any[]) => {
-    const protos = results.map(({ path }) => {
-      console.log(path);
-      console.log(Path.resolve(path));
+    const protos = results.map<MockProtoJson>(({ path }) => {
       const pkgDefinition = loader.loadSync(path);
-      const services = Object.entries(pkgDefinition)
-        .filter(([key, value]) => {
+      const serviceObjs = Object.entries(pkgDefinition);
+      const pkg = _getPkgName(serviceObjs[0][0]);
+      const services = serviceObjs
+        .filter(([, value]) => {
           return !(value as Record<string, any>).hasOwnProperty('type');
         })
         .map<MockServiceJson>(([key, values]) => {
-          const pkgWithServiceName = key.split('.');
-          const name = pkgWithServiceName.pop() || '';
+          const name = _getServiceName(key);
 
           const methods = Object.entries(values).map<MockMethodJson>(
             ([key]) => {
-              return { name: key, out: '' };
+              return { name: key, out: {} };
             }
           );
           return { name, methods };
         });
 
       return {
-        path: path,
-        pkg: '',
+        path: Path.relative('.', path),
+        pkg,
         options: {},
-        services: services,
+        services,
       };
     });
 
     try {
-      fs.writeFileSync('service.json', JSON.stringify({ protos }));
+      fs.writeFileSync(TEMPLATE_NAME, JSON.stringify({ protos }));
     } catch (e) {
       console.log(e);
     }

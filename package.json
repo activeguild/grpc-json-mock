@@ -20,6 +20,9 @@
     "grpc-mock",
     "mock"
   ],
+  "bin": {
+    "gen-grpc-tamplate": "dist/lib/template.js"
+  },
   "author": "mastache-master <workdrive0306@gmail.com>",
   "license": "MIT",
   "bugs": {

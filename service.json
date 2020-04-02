@@ -1,43 +1,36 @@
 {
-  "protos": [{
-    "path": "/Users/kanokeisuke/Documents/develop/grpc-mocky/example/protos/helloWorld.proto",
-    "pkg": "",
-    "options": {},
-    "services": [{
-      "name": "Greeter",
-      "methods": [{
-        "name": "unary",
-        "out": ""
-      }, {
-        "name": "serverStreaming",
-        "out": ""
-      }, {
-        "name": "clientStreaming",
-        "out": ""
-      }, {
-        "name": "duplexStreaming",
-        "out": ""
-      }]
-    }]
-  }, {
-    "path": "/Users/kanokeisuke/Documents/develop/grpc-mocky/example/protos/prots2/helloWorld2.proto",
-    "pkg": "",
-    "options": {},
-    "services": [{
-      "name": "Greeter",
-      "methods": [{
-        "name": "unary",
-        "out": ""
-      }, {
-        "name": "serverStreaming",
-        "out": ""
-      }, {
-        "name": "clientStreaming",
-        "out": ""
-      }, {
-        "name": "duplexStreaming",
-        "out": ""
-      }]
-    }]
-  }]
+  "protos": [
+    {
+      "path": "example/protos/helloWorld.proto",
+      "pkg": "helloworld",
+      "options": {},
+      "services": [
+        {
+          "name": "Greeter",
+          "methods": [
+            { "name": "unary", "out": { "message": "hoge" } },
+            { "name": "serverStreaming", "out": {} },
+            { "name": "clientStreaming", "out": {} },
+            { "name": "duplexStreaming", "out": {} }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "example/protos/prots2/helloWorld2.proto",
+      "pkg": "helloworld",
+      "options": {},
+      "services": [
+        {
+          "name": "Greeter",
+          "methods": [
+            { "name": "unary", "out": {} },
+            { "name": "serverStreaming", "out": {} },
+            { "name": "clientStreaming", "out": {} },
+            { "name": "duplexStreaming", "out": {} }
+          ]
+        }
+      ]
+    }
+  ]
 }
