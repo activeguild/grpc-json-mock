@@ -1,6 +1,6 @@
 {
   "name": "grpc-mocky",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "This is a mock of grpc used for javascript development.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "mock"
   ],
   "bin": {
-    "gen-grpc-tamplate": "dist/lib/template.js"
+    "gen-grpc-tamplate": "dist/cli.js"
   },
   "author": "mastache-master <workdrive0306@gmail.com>",
   "license": "MIT",
