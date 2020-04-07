@@ -22,7 +22,9 @@ export default (path: string): void => {
   let filePaths: string[] = [];
 
   if (pathStat.isDirectory()) {
-    filePaths = fs.readdirSync(path).map(fileName => Path.join(path, fileName));
+    filePaths = fs
+      .readdirSync(path)
+      .map((fileName) => Path.join(path, fileName));
   } else {
     filePaths.push(path);
   }
