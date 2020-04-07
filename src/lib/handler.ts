@@ -10,7 +10,7 @@ const intervalEach = (
   interval: number | undefined = DEFAULT_STREAMING_INTERVAL
 ): void => {
   let i = array.length;
-  const timerID = setInterval(function() {
+  const timerID = setInterval(function () {
     if (!i) {
       lastCallback();
       clearInterval(timerID);
@@ -66,7 +66,7 @@ const _clientStreamingHandler = (
   call: grpc.ServerReadableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
-  call.on('data', function(chunk: any) {
+  call.on('data', function (chunk: any) {
     console.log(chunk);
   });
   call.on('end', () => {
@@ -110,7 +110,7 @@ const _duplexStreamingHandler = (
     { [key: string]: string }
   >
 ): void => {
-  call.on('data', function(chunk: { [key: string]: string }) {
+  call.on('data', function (chunk: { [key: string]: string }) {
     console.log(chunk);
   });
   call.on('end', () => {
