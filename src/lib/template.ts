@@ -22,7 +22,9 @@ export default (path: string): void => {
   let filePaths: string[] = [];
 
   if (pathStat.isDirectory()) {
-    filePaths = fs.readdirSync(path).map(fileName => Path.join(path, fileName));
+    filePaths = fs
+      .readdirSync(path)
+      .map((fileName) => Path.join(path, fileName));
   } else {
     filePaths.push(path);
   }
@@ -41,7 +43,7 @@ export default (path: string): void => {
 
           const methods = Object.entries(values).map<MockMethodJson>(
             ([key]) => {
-              return { name: key, out: {} };
+              return { name: key, output: {} };
             }
           );
           return { name, methods };

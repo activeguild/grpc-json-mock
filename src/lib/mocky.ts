@@ -24,7 +24,7 @@ export type MockServiceJson = {
 };
 export type MockMethodJson = {
   name: string;
-  out: { [key: string]: string };
+  output: { [key: string]: string };
   error?: grpc.ServiceError;
   streamInterval?: number;
 };
@@ -66,7 +66,7 @@ export const run = (
 
   protos.forEach(({ path, pkg, options, services }) => {
     const pkgDefinition = loader.loadSync(Path.resolve(path), options);
-    services.forEach(service => {
+    services.forEach((service) => {
       const serviceHandler = service.methods.reduce((prev, curr) => {
         const svcDefinition = pkgDefinition[
           `${pkg}.${service.name}`

@@ -10,7 +10,7 @@ const intervalEach = (
   interval: number | undefined = DEFAULT_STREAMING_INTERVAL
 ): void => {
   let i = array.length;
-  const timerID = setInterval(function() {
+  const timerID = setInterval(function () {
     if (!i) {
       lastCallback();
       clearInterval(timerID);
@@ -56,7 +56,7 @@ const _unaryHandler = (mockMethodJson: MockMethodJson): UnaryHandler => (
   if (mockMethodJson.error) {
     cb(mockMethodJson.error, null);
   } else {
-    cb(null, mockMethodJson.out);
+    cb(null, mockMethodJson.output);
   }
 };
 
@@ -66,14 +66,14 @@ const _clientStreamingHandler = (
   call: grpc.ServerReadableStream<{ [key: string]: string }>,
   cb: grpc.sendUnaryData<{ [key: string]: string }>
 ): void => {
-  call.on('data', function(chunk: any) {
+  call.on('data', function (chunk: any) {
     console.log(chunk);
   });
   call.on('end', () => {
     if (mockMethodJson.error) {
       cb(mockMethodJson.error, null);
     } else {
-      cb(null, mockMethodJson.out);
+      cb(null, mockMethodJson.output);
     }
   });
 };
@@ -89,15 +89,15 @@ const _serverStreamingHandler = (
   });
   if (mockMethodJson.error) {
     cb(mockMethodJson.error, null);
-  } else if (Array.isArray(mockMethodJson.out)) {
+  } else if (Array.isArray(mockMethodJson.output)) {
     intervalEach(
-      mockMethodJson.out,
+      mockMethodJson.output,
       (value: { [key: string]: string }) => call.write(value),
       () => call.end(),
       mockMethodJson.streamInterval
     );
   } else {
-    call.write(mockMethodJson.out);
+    call.write(mockMethodJson.output);
     call.end();
   }
 };
@@ -110,7 +110,7 @@ const _duplexStreamingHandler = (
     { [key: string]: string }
   >
 ): void => {
-  call.on('data', function(chunk: { [key: string]: string }) {
+  call.on('data', function (chunk: { [key: string]: string }) {
     console.log(chunk);
   });
   call.on('end', () => {
@@ -119,15 +119,15 @@ const _duplexStreamingHandler = (
 
   if (mockMethodJson.error) {
     call.emit('error', mockMethodJson.error);
-  } else if (Array.isArray(mockMethodJson.out)) {
+  } else if (Array.isArray(mockMethodJson.output)) {
     intervalEach(
-      mockMethodJson.out,
+      mockMethodJson.output,
       (value: { [key: string]: string }) => call.write(value),
       () => ({}),
       mockMethodJson.streamInterval
     );
   } else {
-    call.write(mockMethodJson.out);
+    call.write(mockMethodJson.output);
   }
 };
 
