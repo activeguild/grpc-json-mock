@@ -37,6 +37,6 @@ jobs:
         uses: abinoda/slack-action@v1.0.7
         with:
           # "channel"にSlackチャンネルIDを代入
-          args: '{\"channel\":\"CB4JEMZT4\", \"text\":\"npmに最新版をリリース😄\"}'
+          args: '{\"channel\":\"D011EUVEJH4\", \"text\":\"npmに最新版をリリース😄\"}'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
