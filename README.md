@@ -34,6 +34,53 @@ node ./node_module/.bin/gen-grpc-template {path}
 | --------- | --------------------------------------------------------------- |
 | path      | Set the directory where the proto file or proto file is located |
 
+- e.g.
+
+```helloWorld.proto
+syntax = "proto3";
+package helloworld;
+
+service Greeter {
+  rpc unary (UnaryRequest) returns (UnaryResponse) {}
+  rpc serverStreaming (UnaryRequest) returns (stream UnaryResponse) {}
+  rpc clientStreaming (stream UnaryRequest) returns (UnaryResponse) {}
+  rpc duplexStreaming (stream UnaryRequest) returns (stream UnaryResponse) {}
+}
+
+message UnaryRequest {
+  string name = 1;
+}
+
+message UnaryResponse {
+  string message = 1;
+}
+```
+
+generate...
+
+```service.json
+{
+  "protos": [
+    {
+      "path": "example/protos/helloWorld.proto",
+      "pkg": "helloworld",
+      "options": {},
+      "services": [
+        {
+          "name": "Greeter",
+          "methods": [
+            { "name": "unary", "output": {} },
+            { "name": "serverStreaming", "output": {} },
+            { "name": "clientStreaming", "output": {} },
+            { "name": "duplexStreaming", "output": {} }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 # Interface
 
 ### run
