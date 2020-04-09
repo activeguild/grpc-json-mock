@@ -34,7 +34,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Send notification to Slack when master/docs has been updated
-        uses: pullreminders/slack-action@v1
+        uses: abinoda/slack-action@v1.0.7
         with:
           # "channel"にSlackチャンネルIDを代入
           args: '{\"channel\":\"CB4JEMZT4\", \"text\":\"npmに最新版をリリース😄\"}'
