@@ -24,7 +24,7 @@ export type MockServiceJson = {
 };
 export type MockMethodJson = {
   name: string;
-  out: { [key: string]: string };
+  output: { [key: string]: string };
   error?: grpc.ServiceError;
   streamInterval?: number;
 };
@@ -68,12 +68,13 @@ export const run = (
     const pkgDefinition = loader.loadSync(Path.resolve(path), options);
     services.forEach((service) => {
       const serviceHandler = service.methods.reduce((prev, curr) => {
-        const svcDefinition =
-          pkgDefinition[`${pkg}.${service.name}`] as
-          grpc.ServiceDefinition<any>;
+        const svcDefinition = pkgDefinition[
+          `${pkg}.${service.name}`
+        ] as grpc.ServiceDefinition<any>;
 
-        const methodDefinition =
-          svcDefinition[curr.name] as grpc.MethodDefinition<object, object>;
+        const methodDefinition = svcDefinition[
+          curr.name
+        ] as grpc.MethodDefinition<object, object>;
 
         return {
           ...prev,

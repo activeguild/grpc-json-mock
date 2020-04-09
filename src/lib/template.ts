@@ -32,7 +32,6 @@ export default (path: string): void => {
   fl.read(filePaths, { ext: 'proto' }, (results: any[]) => {
     const protos = results.map<MockProtoJson>(({ path }) => {
       const pkgDefinition = loader.loadSync(path);
-      console.log(pkgDefinition);
       const serviceObjs = Object.entries(pkgDefinition);
       const pkg = _getPkgName(serviceObjs[0][0]);
       const services = serviceObjs
@@ -44,7 +43,7 @@ export default (path: string): void => {
 
           const methods = Object.entries(values).map<MockMethodJson>(
             ([key]) => {
-              return { name: key, out: {} };
+              return { name: key, output: {} };
             }
           );
           return { name, methods };

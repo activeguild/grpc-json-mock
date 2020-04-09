@@ -56,7 +56,7 @@ const _unaryHandler = (mockMethodJson: MockMethodJson): UnaryHandler => (
   if (mockMethodJson.error) {
     cb(mockMethodJson.error, null);
   } else {
-    cb(null, mockMethodJson.out);
+    cb(null, mockMethodJson.output);
   }
 };
 
@@ -73,7 +73,7 @@ const _clientStreamingHandler = (
     if (mockMethodJson.error) {
       cb(mockMethodJson.error, null);
     } else {
-      cb(null, mockMethodJson.out);
+      cb(null, mockMethodJson.output);
     }
   });
 };
@@ -89,15 +89,15 @@ const _serverStreamingHandler = (
   });
   if (mockMethodJson.error) {
     cb(mockMethodJson.error, null);
-  } else if (Array.isArray(mockMethodJson.out)) {
+  } else if (Array.isArray(mockMethodJson.output)) {
     intervalEach(
-      mockMethodJson.out,
+      mockMethodJson.output,
       (value: { [key: string]: string }) => call.write(value),
       () => call.end(),
       mockMethodJson.streamInterval
     );
   } else {
-    call.write(mockMethodJson.out);
+    call.write(mockMethodJson.output);
     call.end();
   }
 };
@@ -119,15 +119,15 @@ const _duplexStreamingHandler = (
 
   if (mockMethodJson.error) {
     call.emit('error', mockMethodJson.error);
-  } else if (Array.isArray(mockMethodJson.out)) {
+  } else if (Array.isArray(mockMethodJson.output)) {
     intervalEach(
-      mockMethodJson.out,
+      mockMethodJson.output,
       (value: { [key: string]: string }) => call.write(value),
       () => ({}),
       mockMethodJson.streamInterval
     );
   } else {
-    call.write(mockMethodJson.out);
+    call.write(mockMethodJson.output);
   }
 };
 
