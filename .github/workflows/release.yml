@@ -33,3 +33,10 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Send notification to Slack when master/docs has been updated
+        uses: pullreminders/slack-action@v1
+        with:
+          # "channel"にSlackチャンネルIDを代入
+          args: '{\"channel\":\"CB4JEMZT4\", \"text\":\"npmに最新版をリリース😄\"}'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
