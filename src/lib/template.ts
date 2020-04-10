@@ -17,7 +17,7 @@ const _getPkgName = (namespace: string): string => {
   return pkgWithServiceName.join('.');
 };
 
-export default (path: string): void => {
+export default (path: string, includeDirs?: string[]): void => {
   const pathStat = fs.statSync(path);
   let filePaths: string[] = [];
 
@@ -31,8 +31,13 @@ export default (path: string): void => {
 
   fl.read(filePaths, { ext: 'proto' }, (results: any[]) => {
     const protos = results.map<MockProtoJson>(({ path }) => {
-      const pkgDefinition = loader.loadSync(path);
+      console.log('hoge-start');
+      const pkgDefinition = loader.loadSync(path, {
+        includeDirs,
+      });
+      console.log(pkgDefinition);
       const serviceObjs = Object.entries(pkgDefinition);
+      console.log('hoge-end');
       const pkg = _getPkgName(serviceObjs[0][0]);
       const services = serviceObjs
         .filter(([, value]) => {
