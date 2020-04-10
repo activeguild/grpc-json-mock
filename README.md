@@ -34,6 +34,12 @@ node ./node_module/.bin/gen-grpc-template {path}
 | --------- | --------------------------------------------------------------- |
 | path      | Set the directory where the proto file or proto file is located |
 
+- option
+
+| option | Description         |
+| ------ | ------------------- |
+| -i     | import another path |
+
 - e.g.
 
 ```helloWorld.proto
