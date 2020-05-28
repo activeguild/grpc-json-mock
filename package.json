@@ -35,10 +35,15 @@
     "test": "jest",
     "eg:start": "ts-node ./example/index.ts",
     "eg:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "preinstall": "typesync || :"
   },
   "devDependencies": {
+    "@types/eslint": "^6.8.1",
+    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/jest": "^25.2.1",
+    "@types/minimist": "^1.2.0",
+    "@types/prettier": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^6.8.0",
@@ -49,7 +54,8 @@
     "ts-jest": "^25.3.1",
     "ts-loader": "^6.2.2",
     "ts-node": "^8.8.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "typesync": "^0.6.1"
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.5.4",
