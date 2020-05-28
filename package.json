@@ -1,6 +1,6 @@
 {
   "name": "grpc-mocky",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "This is a mock of grpc used for javascript development.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,14 +36,10 @@
     "eg:start": "ts-node ./example/index.ts",
     "eg:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
     "prepublishOnly": "npm run build",
-    "preinstall": "typesync || :"
+    "preinstall": "typesync --ignoredeps=dev || :"
   },
   "devDependencies": {
-    "@types/eslint": "^6.8.1",
-    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/jest": "^25.2.1",
-    "@types/minimist": "^1.2.0",
-    "@types/prettier": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "eslint": "^6.8.0",
