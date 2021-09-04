@@ -1,5 +1,5 @@
 import generate from './lib/template';
-import program from 'commander';
+import { program } from 'commander';
 
 const _list = (val: string | undefined): string[] | undefined => {
   return val ? val.split(',') : [];
@@ -10,5 +10,5 @@ program
   .parse(process.argv);
 
 if (program.args[0]) {
-  generate(program.args[0], program.includedir);
+  generate(program.args[0], (program as any).includedir);
 }
