@@ -20,6 +20,17 @@
               }
             },
             {
+              "name": "unaryError",
+              "output": {
+                "message": {
+                  "error": {
+                    "code": "16",
+                    "details": "certification failed."
+                  }
+                }
+              }
+            },
+            {
               "name": "serverStreaming",
               "output": [
                 {

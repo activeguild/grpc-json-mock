@@ -3,6 +3,7 @@ package helloworld;
 
 service Greeter {
   rpc unary (UnaryRequest) returns (UnaryResponse) {}
+  rpc unaryError (UnaryRequest) returns (UnaryResponse) {}
   rpc serverStreaming (UnaryRequest) returns (stream UnaryResponse) {}
   rpc clientStreaming (stream UnaryRequest) returns (UnaryResponse) {}
   rpc duplexStreaming (stream UnaryRequest) returns (stream UnaryResponse) {}
