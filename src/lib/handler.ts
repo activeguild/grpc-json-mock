@@ -4,8 +4,8 @@ import { MockMethodJson, RPCType } from './mocky';
 export const DEFAULT_STREAMING_INTERVAL = 1000;
 
 const intervalEach = (
-  array: { [key: string]: string }[],
-  callback: (value: { [key: string]: string }) => void,
+  array: Record<string, string>[],
+  callback: (value: Record<string, string>) => void,
   lastCallback: () => void,
   interval: number | undefined = DEFAULT_STREAMING_INTERVAL
 ): void => {
@@ -28,107 +28,118 @@ type Handler =
   | DuplexStreamingHandler;
 
 type UnaryHandler = (
-  call: grpc.ServerUnaryCall<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
+  call: grpc.ServerUnaryCall<Record<string, string>>,
+  cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
 type ClientStreamingHandler = (
-  call: grpc.ServerReadableStream<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
+  call: grpc.ServerReadableStream<Record<string, string>>,
+  cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
 type ServerStreamingHandler = (
-  call: grpc.ServerWritableStream<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
+  call: grpc.ServerWritableStream<Record<string, string>>,
+  cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
 type DuplexStreamingHandler = (
-  call: grpc.ServerDuplexStream<
-    { [key: string]: string },
-    { [key: string]: string }
-  >
+  call: grpc.ServerDuplexStream<Record<string, string>, Record<string, string>>
 ) => void;
 
-const _unaryHandler = (mockMethodJson: MockMethodJson): UnaryHandler => (
-  call: grpc.ServerUnaryCall<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
-): void => {
-  if (mockMethodJson.error) {
-    cb(mockMethodJson.error, null);
-  } else {
-    cb(null, mockMethodJson.output);
-  }
-};
-
-const _clientStreamingHandler = (
-  mockMethodJson: MockMethodJson
-): ClientStreamingHandler => (
-  call: grpc.ServerReadableStream<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
-): void => {
-  call.on('data', function (chunk: any) {
-    console.log(chunk);
-  });
-  call.on('end', () => {
+const _unaryHandler =
+  (mockMethodJson: MockMethodJson): UnaryHandler =>
+  (
+    call: grpc.ServerUnaryCall<Record<string, string>>,
+    cb: grpc.sendUnaryData<Record<string, string>>
+  ): void => {
     if (mockMethodJson.error) {
-      cb(mockMethodJson.error, null);
+      cb(gRPCErrorObj(mockMethodJson.error), null);
     } else {
       cb(null, mockMethodJson.output);
     }
-  });
-};
+  };
 
-const _serverStreamingHandler = (
-  mockMethodJson: MockMethodJson
-): ServerStreamingHandler => (
-  call: grpc.ServerWritableStream<{ [key: string]: string }>,
-  cb: grpc.sendUnaryData<{ [key: string]: string }>
-): void => {
-  call.on('error', (err: Error) => {
-    console.log(err);
-  });
-  if (mockMethodJson.error) {
-    cb(mockMethodJson.error, null);
-  } else if (Array.isArray(mockMethodJson.output)) {
-    intervalEach(
-      mockMethodJson.output,
-      (value: { [key: string]: string }) => call.write(value),
-      () => call.end(),
-      mockMethodJson.streamInterval
-    );
-  } else {
-    call.write(mockMethodJson.output);
-    call.end();
+const _clientStreamingHandler =
+  (mockMethodJson: MockMethodJson): ClientStreamingHandler =>
+  (
+    call: grpc.ServerReadableStream<Record<string, string>>,
+    cb: grpc.sendUnaryData<Record<string, string>>
+  ): void => {
+    call.on('data', function (chunk: any) {
+      console.log(chunk);
+    });
+    call.on('end', () => {
+      if (mockMethodJson.error) {
+        cb(gRPCErrorObj(mockMethodJson.error), null);
+      } else {
+        cb(null, mockMethodJson.output);
+      }
+    });
+  };
+
+const _serverStreamingHandler =
+  (mockMethodJson: MockMethodJson): ServerStreamingHandler =>
+  (
+    call: grpc.ServerWritableStream<Record<string, string>>,
+    cb: grpc.sendUnaryData<Record<string, string>>
+  ): void => {
+    call.on('error', (err: Error) => {
+      console.log(err);
+    });
+    if (mockMethodJson.error) {
+      cb(gRPCErrorObj(mockMethodJson.error), null);
+    } else if (Array.isArray(mockMethodJson.output)) {
+      intervalEach(
+        mockMethodJson.output,
+        (value: Record<string, string>) => call.write(value),
+        () => call.end(),
+        mockMethodJson.streamInterval
+      );
+    } else {
+      call.write(mockMethodJson.output);
+      call.end();
+    }
+  };
+
+const _duplexStreamingHandler =
+  (mockMethodJson: MockMethodJson): DuplexStreamingHandler =>
+  (
+    call: grpc.ServerDuplexStream<
+      Record<string, string>,
+      Record<string, string>
+    >
+  ): void => {
+    call.on('data', function (chunk: Record<string, string>) {
+      console.log(chunk);
+    });
+    call.on('end', () => {
+      console.log('clinet stream end');
+    });
+
+    if (mockMethodJson.error) {
+      call.emit('error', gRPCErrorObj(mockMethodJson.error));
+    } else if (Array.isArray(mockMethodJson.output)) {
+      intervalEach(
+        mockMethodJson.output,
+        (value: Record<string, string>) => call.write(value),
+        () => ({}),
+        mockMethodJson.streamInterval
+      );
+    } else {
+      call.write(mockMethodJson.output);
+    }
+  };
+
+const gRPCErrorObj = (error: NonNullable<MockMethodJson['error']>) => {
+  const { code, metadata, details } = error;
+  const trailer = new grpc.Metadata();
+  if (metadata) {
+    for (const [key, value] of Object.entries(metadata)) {
+      trailer.set(key, value);
+    }
   }
-};
 
-const _duplexStreamingHandler = (
-  mockMethodJson: MockMethodJson
-): DuplexStreamingHandler => (
-  call: grpc.ServerDuplexStream<
-    { [key: string]: string },
-    { [key: string]: string }
-  >
-): void => {
-  call.on('data', function (chunk: { [key: string]: string }) {
-    console.log(chunk);
-  });
-  call.on('end', () => {
-    console.log('clinet stream end');
-  });
-
-  if (mockMethodJson.error) {
-    call.emit('error', mockMethodJson.error);
-  } else if (Array.isArray(mockMethodJson.output)) {
-    intervalEach(
-      mockMethodJson.output,
-      (value: { [key: string]: string }) => call.write(value),
-      () => ({}),
-      mockMethodJson.streamInterval
-    );
-  } else {
-    call.write(mockMethodJson.output);
-  }
+  return { code, metadata: trailer, details, name: '', message: '' };
 };
 
 export const makeHandler = (
