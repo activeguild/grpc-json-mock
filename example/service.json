@@ -22,12 +22,12 @@
             {
               "name": "unaryError",
               "output": {
-                "message": {
-                  "error": {
-                    "code": "16",
-                    "details": "certification failed."
-                  }
-                }
+                "message": {}
+              },
+              "error": {
+                "code": 16,
+                "metadata": { "token": "nothing" },
+                "details": "certification failed."
               }
             },
             {

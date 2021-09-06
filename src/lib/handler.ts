@@ -53,7 +53,7 @@ const _unaryHandler =
     cb: grpc.sendUnaryData<Record<string, string>>
   ): void => {
     if (mockMethodJson.error) {
-      cb(mockMethodJson.error, null);
+      cb(gRPCErrorObj(mockMethodJson.error), null);
     } else {
       cb(null, mockMethodJson.output);
     }
@@ -70,7 +70,7 @@ const _clientStreamingHandler =
     });
     call.on('end', () => {
       if (mockMethodJson.error) {
-        cb(mockMethodJson.error, null);
+        cb(gRPCErrorObj(mockMethodJson.error), null);
       } else {
         cb(null, mockMethodJson.output);
       }
@@ -87,7 +87,7 @@ const _serverStreamingHandler =
       console.log(err);
     });
     if (mockMethodJson.error) {
-      cb(mockMethodJson.error, null);
+      cb(gRPCErrorObj(mockMethodJson.error), null);
     } else if (Array.isArray(mockMethodJson.output)) {
       intervalEach(
         mockMethodJson.output,
@@ -117,7 +117,7 @@ const _duplexStreamingHandler =
     });
 
     if (mockMethodJson.error) {
-      call.emit('error', mockMethodJson.error);
+      call.emit('error', gRPCErrorObj(mockMethodJson.error));
     } else if (Array.isArray(mockMethodJson.output)) {
       intervalEach(
         mockMethodJson.output,
@@ -129,6 +129,18 @@ const _duplexStreamingHandler =
       call.write(mockMethodJson.output);
     }
   };
+
+const gRPCErrorObj = (error: NonNullable<MockMethodJson['error']>) => {
+  const { code, metadata, details } = error;
+  const trailer = new grpc.Metadata();
+  if (metadata) {
+    for (const [key, value] of Object.entries(metadata)) {
+      trailer.set(key, value);
+    }
+  }
+
+  return { code, metadata: trailer, details, name: '', message: '' };
+};
 
 export const makeHandler = (
   mockMethodJson: MockMethodJson,
