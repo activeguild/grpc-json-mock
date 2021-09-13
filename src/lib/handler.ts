@@ -1,4 +1,4 @@
-import * as grpc from 'grpc';
+import * as grpc from '@grpc/grpc-js';
 import { MockMethodJson, RPCType } from './mocky';
 
 export const DEFAULT_STREAMING_INTERVAL = 1000;
@@ -28,17 +28,23 @@ type Handler =
   | DuplexStreamingHandler;
 
 type UnaryHandler = (
-  call: grpc.ServerUnaryCall<Record<string, string>>,
+  call: grpc.ServerUnaryCall<Record<string, string>, Record<string, string>>,
   cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
 type ClientStreamingHandler = (
-  call: grpc.ServerReadableStream<Record<string, string>>,
+  call: grpc.ServerReadableStream<
+    Record<string, string>,
+    Record<string, string>
+  >,
   cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
 type ServerStreamingHandler = (
-  call: grpc.ServerWritableStream<Record<string, string>>,
+  call: grpc.ServerWritableStream<
+    Record<string, string>,
+    Record<string, string>
+  >,
   cb: grpc.sendUnaryData<Record<string, string>>
 ) => void;
 
@@ -49,7 +55,7 @@ type DuplexStreamingHandler = (
 const _unaryHandler =
   (mockMethodJson: MockMethodJson): UnaryHandler =>
   (
-    call: grpc.ServerUnaryCall<Record<string, string>>,
+    call: grpc.ServerUnaryCall<Record<string, string>, Record<string, string>>,
     cb: grpc.sendUnaryData<Record<string, string>>
   ): void => {
     if (mockMethodJson.error) {
@@ -62,7 +68,10 @@ const _unaryHandler =
 const _clientStreamingHandler =
   (mockMethodJson: MockMethodJson): ClientStreamingHandler =>
   (
-    call: grpc.ServerReadableStream<Record<string, string>>,
+    call: grpc.ServerReadableStream<
+      Record<string, string>,
+      Record<string, string>
+    >,
     cb: grpc.sendUnaryData<Record<string, string>>
   ): void => {
     call.on('data', function (chunk: any) {
@@ -80,7 +89,10 @@ const _clientStreamingHandler =
 const _serverStreamingHandler =
   (mockMethodJson: MockMethodJson): ServerStreamingHandler =>
   (
-    call: grpc.ServerWritableStream<Record<string, string>>,
+    call: grpc.ServerWritableStream<
+      Record<string, string>,
+      Record<string, string>
+    >,
     cb: grpc.sendUnaryData<Record<string, string>>
   ): void => {
     call.on('error', (err: Error) => {
