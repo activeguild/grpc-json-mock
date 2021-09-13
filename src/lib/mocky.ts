@@ -1,4 +1,4 @@
-import * as grpc from 'grpc';
+import * as grpc from '@grpc/grpc-js';
 import * as loader from '@grpc/proto-loader';
 import { makeHandler } from './handler';
 import Path from 'path';
@@ -93,8 +93,14 @@ export const run = (
     });
   });
 
-  server.bind(`${address}:${port}`, grpc.ServerCredentials.createInsecure());
-  server.start();
-
+  server.bindAsync(
+    `${address}:${port}`,
+    grpc.ServerCredentials.createInsecure(),
+    (error, port) => {
+      if (!error) {
+        server.start();
+      }
+    }
+  );
   return server;
 };
