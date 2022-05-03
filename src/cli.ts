@@ -10,5 +10,5 @@ program
   .parse(process.argv);
 
 if (program.args[0]) {
-  generate(program.args[0], (program as any).includedir);
+  generate(program.args[0], program.opts().includedir);
 }
