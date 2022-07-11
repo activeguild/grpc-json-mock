@@ -36,7 +36,10 @@
     "eg:start": "tsx ./example/index.ts",
     "eg:evans": "evans --port 50051 ./example/protos/helloWorld.proto",
     "prepublishOnly": "npm run build",
-    "preinstall": "typesync --ignoredeps=dev || :"
+    "preinstall": "typesync --ignoredeps=dev || :",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "prettier": "prettier . --write"
   },
   "devDependencies": {
     "@types/jest": "^28.1.4",
@@ -45,7 +48,6 @@
     "@typescript-eslint/parser": "^5.30.5",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
     "jest": "^28.1.2",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.5",
