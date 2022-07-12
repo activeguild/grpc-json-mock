@@ -1,7 +1,7 @@
 {
   "name": "grpc-mock-json",
   "version": "0.1.32",
-  "description": "This is a mock of grpc used for javascript development.",
+  "description": "A GRPC mock server for front-end developmentt.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
@@ -18,12 +18,13 @@
     "grpc",
     "grpc-web",
     "grpc-mock",
-    "mock"
+    "mock",
+    "json"
   ],
   "bin": {
     "gen-grpc-tamplate": "dist/cli.js"
   },
-  "author": "mastache-master <workdrive0306@gmail.com>",
+  "author": "j1ngzoue <workdrive0306@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/activeguild/grpc-mock-json/issues"
