@@ -6,9 +6,9 @@
 
 # Introduction
 
-- This is a mock of grpc used for javascript development
-- Can have multiple entry points
-- Supports the following methods
+- A GRPC mock server for front-end development.
+- Multiple APIs are supported.
+- Supports the following APIs
   - unary
   - serverStreming
   - clientStreming
@@ -24,7 +24,7 @@ npm i -D grpc-json-mock
 
 ### gen-grpc-tamplate
 
-- Output mock json template
+- By specifying a proto file, you can output a json template for use in mock.
 
 ```shell
 node ./node_module/.bin/gen-grpc-template {path}
