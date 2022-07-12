@@ -1,14 +1,14 @@
-<h1 align="center">Welcome to grpc-mocky 😀</h1>
+<h1 align="center">Welcome to grpc-json-mock 😀</h1>
 
 <p align="left">
-  <a href="https://github.com/actions/setup-node"><img alt="GitHub Actions status" src="https://github.com/activeguild/grpc-mocky/workflows/automatic%20release/badge.svg" style="max-width:100%;"></a>
+  <a href="https://github.com/actions/setup-node"><img alt="GitHub Actions status" src="https://github.com/activeguild/grpc-json-mock/workflows/automatic%20release/badge.svg" style="max-width:100%;"></a>
 </p>
 
 # Introduction
 
-- This is a mock of grpc used for javascript development
-- Can have multiple entry points
-- Supports the following methods
+- A GRPC mock server for front-end development.
+- Multiple APIs are supported.
+- Supports the following APIs
   - unary
   - serverStreming
   - clientStreming
@@ -17,14 +17,14 @@
 # Install
 
 ```shell
-npm i -D grpc-mocky
+npm i -D grpc-json-mock
 ```
 
 # Cli
 
 ### gen-grpc-tamplate
 
-- Output mock json template
+- By specifying a proto file, you can output a json template for use in mock.
 
 ```shell
 node ./node_module/.bin/gen-grpc-template {path}
@@ -91,27 +91,27 @@ generate...
 
 ### run
 
-| Parameter | Type           | Description                                                                                                                                                                                                                    |
-| --------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| address   | string         | Set the address of the mock server to be started. default 0.0.0.0                                                                                                                                                              |
-| port      | string         | Set the port of the mock server to be started. default 50051                                                                                                                                                                   |
-| protos    | Array\<proto\> | <b>Required.</b> Set proto and mock data to be loaded into mock server. <br> e.g. https://github.com/activeguild/grpc-mocky/blob/master/example/service.json <br> https://github.com/activeguild/grpc-mocky#user-content-proto |
+| Parameter | Type           | Description                                                                                                                                                                                                                            |
+| --------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| address   | string         | Set the address of the mock server to be started. default 0.0.0.0                                                                                                                                                                      |
+| port      | string         | Set the port of the mock server to be started. default 50051                                                                                                                                                                           |
+| protos    | Array\<proto\> | <b>Required.</b> Set proto and mock data to be loaded into mock server. <br> e.g. https://github.com/activeguild/grpc-json-mock/blob/master/example/service.json <br> https://github.com/activeguild/grpc-json-mock#user-content-proto |
 
 ### proto
 
-| Parameter | Type             | Description                                                                     |
-| --------- | ---------------- | ------------------------------------------------------------------------------- |
-| path      | string           | <b>Required.</b> Set location of proto file.                                    |
-| pkg       | string           | <b>Required.</b> Set pkgName from ptoro file.                                   |
-| options   | string           | https://github.com/grpc/grpc-node/tree/master/packages/proto-loader             |
-| services  | Array\<service\> | <b>Required.</b> https://github.com/activeguild/grpc-mocky#user-content-service |
+| Parameter | Type             | Description                                                                         |
+| --------- | ---------------- | ----------------------------------------------------------------------------------- |
+| path      | string           | <b>Required.</b> Set location of proto file.                                        |
+| pkg       | string           | <b>Required.</b> Set pkgName from ptoro file.                                       |
+| options   | string           | https://github.com/grpc/grpc-node/tree/master/packages/proto-loader                 |
+| services  | Array\<service\> | <b>Required.</b> https://github.com/activeguild/grpc-json-mock#user-content-service |
 
 ### service
 
-| Parameter | Type            | Description                                                                    |
-| --------- | --------------- | ------------------------------------------------------------------------------ |
-| name      | string          | <b>Required.</b> Set service name from ptoro file.                             |
-| methods   | Array\<method\> | <b>Required.</b> https://github.com/activeguild/grpc-mocky#user-content-method |
+| Parameter | Type            | Description                                                                        |
+| --------- | --------------- | ---------------------------------------------------------------------------------- |
+| name      | string          | <b>Required.</b> Set service name from ptoro file.                                 |
+| methods   | Array\<method\> | <b>Required.</b> https://github.com/activeguild/grpc-json-mock#user-content-method |
 
 ### method
 
@@ -124,8 +124,8 @@ generate...
 
 # e.g.
 
-https://github.com/activeguild/grpc-mocky/tree/master/example
+https://github.com/activeguild/grpc-json-mock/tree/master/example
 
 # License
 
-- [MIT](https://github.com/activeguild/grpc-mocky/blob/master/LICENSE)
+- [MIT](https://github.com/activeguild/grpc-json-mock/blob/master/LICENSE)
