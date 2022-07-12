@@ -1,12 +1,12 @@
 {
-  "name": "grpc-mocky",
+  "name": "grpc-mock-json",
   "version": "0.1.32",
   "description": "This is a mock of grpc used for javascript development.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/activeguild/grpc-mocky.git"
+    "url": "git+https://github.com/activeguild/grpc-mock-json.git"
   },
   "files": [
     "dist",
@@ -26,9 +26,9 @@
   "author": "mastache-master <workdrive0306@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/activeguild/grpc-mocky/issues"
+    "url": "https://github.com/activeguild/grpc-mock-json/issues"
   },
-  "homepage": "https://github.com/activeguild/grpc-mocky/blob/master/README.md",
+  "homepage": "https://github.com/activeguild/grpc-mock-json/blob/master/README.md",
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "build:watch": "tsc -w --project tsconfig.json",
